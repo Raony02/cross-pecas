@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Brand {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  slug  String  @unique
+  models Model[]
+}
+
+model Model {
+  id       Int     @id @default(autoincrement())
+  brandId  Int
+  brand    Brand   @relation(fields: [brandId], references: [id])
+  name     String
+  slug     String
+  yearStart Int
+  yearEnd   Int?
+  parts    Part[]
+  compatibilities PartCompatibility[]
+
+  @@unique([brandId, slug])
+}
+
+model Part {
+  id         Int     @id @default(autoincrement())
+  modelId    Int
+  model      Model   @relation(fields: [modelId], references: [id])
+  name       String
+  category   String
+  refNumber  String?
+  avgPrice   Float?
+  compatibilities PartCompatibility[]
+}
+
+model PartCompatibility {
+  id              Int     @id @default(autoincrement())
+  partId          Int
+  part            Part    @relation(fields: [partId], references: [id])
+  compatibleModelId Int
+  compatibleModel Model   @relation(fields: [compatibleModelId], references: [id])
+  refNumber       String?
+  avgPrice        Float?
+  savingsPercent  Float?
+  source          String?
+}

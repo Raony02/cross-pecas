@@ -1,0 +1,19 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "github": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "enabled": true,
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    }
+  },
+  "command": {
+    "deploy": {
+      "description": "Deploy to Vercel production",
+      "prompt": "Run `npx vercel --prod` to deploy the current state to Vercel production. Wait for the URL output."
+    }
+  }
+}
